@@ -1,0 +1,153 @@
+.home-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #fffaeb;
+}
+
+.home-header {
+  background-color: #e6c300;
+  color: #000655;
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  position: relative;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.back-arrow {
+  position: absolute;
+  left: 1.5rem;
+  font-size: 1.25rem;
+  cursor: pointer;
+  color: #000655;
+  transition: transform 0.2s ease;
+}
+
+.back-arrow:hover {
+  transform: scale(1.2);
+}
+
+.home-header h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  font-family: Georgia, serif;
+  width: 100%;
+  text-align: center;
+}
+
+.home-header p {
+  font-size: 1rem;
+  opacity: 0.9;
+  position: absolute;
+  right: 1.5rem;
+}
+
+.actions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+  padding: 2rem;
+  flex: 1;
+}
+
+.action-tile {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+  height: 200px;
+  border: 2px solid #e6c300;
+}
+
+.action-tile:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+  border-color: #000655;
+}
+
+.action-tile:hover .action-icon {
+  color: #000655;
+}
+
+.action-content {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: 100%;
+}
+
+.action-icon {
+  color: #e6c300;
+  width: 2.5rem;
+  height: 2.5rem;
+  margin-bottom: 1rem;
+  transition: color 0.3s ease;
+}
+
+.action-tile h2 {
+  color: #000655;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.action-tile p {
+  color: #666;
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+.home-footer {
+  background-color: #000655;
+  color: white;
+  text-align: center;
+  padding: 1rem;
+  margin-top: auto;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .home-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .home-header p {
+    display: none;
+  }
+
+  .actions-grid {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    padding: 1rem;
+  }
+
+  .action-tile {
+    height: 180px;
+  }
+
+  .action-icon {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .action-tile h2 {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .actions-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .home-header h1 {
+    font-size: 1.25rem;
+  }
+}
