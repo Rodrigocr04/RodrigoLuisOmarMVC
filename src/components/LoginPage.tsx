@@ -1,13 +1,25 @@
 import type React from "react"
-
+import { useState } from "react"
 import { InputField } from "./InputField"
+import { RegistrationModal } from "./Registration"
 import "./LoginPage.css"
 
 interface LoginPageProps {
-  onLogin: () => void;
+  onLogin: () => void
 }
 
 const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
+  const [showRegisterModal, setShowRegisterModal] = useState(false)
+
+  const openRegisterModal = (e: React.MouseEvent) => {
+    e.preventDefault()
+    setShowRegisterModal(true)
+  }
+
+  const closeRegisterModal = () => {
+    setShowRegisterModal(false)
+  }
+
   return (
     <div className="login-container">
       <div className="login-overlay"></div>
@@ -26,14 +38,21 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
         </div>
 
         <div className="login-footer">
-          <button className="login-button" onClick={onLogin}>Iniciar Sesión</button>
+          <button className="login-button" onClick={onLogin}>
+            Iniciar Sesión
+          </button>
           <p className="register-text">
-            ¿No tiene una cuenta? <a href="#" className="register-link">Regístrese</a>
+            ¿No tiene una cuenta?{" "}
+            <a href="#" className="register-link" onClick={openRegisterModal}>
+              Regístrese
+            </a>
           </p>
         </div>
       </div>
-    </div>
-  );
-};
 
-export default LoginPage;
+      {showRegisterModal && <RegistrationModal onClose={closeRegisterModal} />}
+    </div>
+  )
+}
+
+export default LoginPage
