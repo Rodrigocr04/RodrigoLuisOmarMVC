@@ -1,19 +1,18 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { InputField } from "./InputField";
 import { RegistrationModal } from "./Registration";
 import "./LoginPage.css";
 import { db } from "../firebaseConfig";
 import { collection, query, where, getDocs } from "firebase/firestore";
 
-interface LoginPageProps {
-  onLogin: () => void;
-}
-
-const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
+const LoginPage: React.FC = () => {
   const [showRegisterModal, setShowRegisterModal] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+
+  const navigate = useNavigate(); // Hook para navegar entre rutas
 
   const openRegisterModal = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -38,9 +37,22 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
 
       if (querySnapshot.empty) {
         setError("Usuario o contraseña incorrectos");
+        return;
+      }
+
+      // Obtenemos el primer documento (usuario encontrado)
+      const userData = querySnapshot.docs[0].data();
+      const userType = userData.tipo; // "tipo" es la categoría del usuario
+
+      // Redireccionamos según el tipo de usuario
+      if (userType === "estudiante") {
+        navigate("/home/student");
+      } else if (userType === "profesor") {
+        navigate("/home/teacher");
+      } else if (userType === "administrador") {
+        navigate("/home/admin");
       } else {
-        setError("");
-        onLogin();
+        setError("Tipo de usuario desconocido");
       }
     } catch (error) {
       console.error("Error al iniciar sesión:", error);

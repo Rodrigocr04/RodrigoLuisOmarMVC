@@ -1,19 +1,19 @@
-import { useState } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LoginPage from "./components/LoginPage";
-import HomePage from "./components/HomePage";
-import "./App.css";
+import HomePageStudent from "./components/HomePageStudent";
+import HomePageTeacher from "./components/HomePageTeacher";
+import HomePageAdmin from "./components/HomePageAdmin";
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
   return (
-    <div className="App">
-      {isLoggedIn ? (
-        <HomePage onLogout={() => setIsLoggedIn(false)} />
-      ) : (
-        <LoginPage onLogin={() => setIsLoggedIn(true)} />
-      )}
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<LoginPage onLogin={() => {}} />} />
+        <Route path="/home/student" element={<HomePageStudent />} />
+        <Route path="/home/teacher" element={<HomePageTeacher />} />
+        <Route path="/home/admin" element={<HomePageAdmin />} />
+      </Routes>
+    </Router>
   );
 }
 
