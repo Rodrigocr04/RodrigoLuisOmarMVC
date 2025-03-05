@@ -1,24 +1,52 @@
-import type React from "react"
-import { useState } from "react"
-import { InputField } from "./InputField"
-import { RegistrationModal } from "./Registration"
-import "./LoginPage.css"
+import React, { useState } from "react";
+import { InputField } from "./InputField";
+import { RegistrationModal } from "./Registration";
+import "./LoginPage.css";
+import { db } from "../firebaseConfig";
+import { collection, query, where, getDocs } from "firebase/firestore";
 
 interface LoginPageProps {
-  onLogin: () => void
+  onLogin: () => void;
 }
 
 const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
-  const [showRegisterModal, setShowRegisterModal] = useState(false)
+  const [showRegisterModal, setShowRegisterModal] = useState(false);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   const openRegisterModal = (e: React.MouseEvent) => {
-    e.preventDefault()
-    setShowRegisterModal(true)
-  }
+    e.preventDefault();
+    setShowRegisterModal(true);
+  };
 
   const closeRegisterModal = () => {
-    setShowRegisterModal(false)
-  }
+    setShowRegisterModal(false);
+  };
+
+  const handleLogin = async (e: React.MouseEvent) => {
+    e.preventDefault();
+
+    try {
+      const usersRef = collection(db, "Usuarios");
+      const q = query(
+        usersRef,
+        where("nombre", "==", username),
+        where("contraseña", "==", password)
+      );
+      const querySnapshot = await getDocs(q);
+
+      if (querySnapshot.empty) {
+        setError("Usuario o contraseña incorrectos");
+      } else {
+        setError("");
+        onLogin();
+      }
+    } catch (error) {
+      console.error("Error al iniciar sesión:", error);
+      setError("Ocurrió un error al iniciar sesión");
+    }
+  };
 
   return (
     <div className="login-container">
@@ -33,12 +61,27 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
         </div>
 
         <div className="login-content">
-          <InputField type="text" label="Usuario" placeholder="Ingrese su nombre de usuario o correo" />
-          <InputField type="password" label="Contraseña" placeholder="Ingrese su contraseña" />
+          <InputField
+            type="text"
+            label="Usuario"
+            placeholder="Ingrese su nombre de usuario o correo"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+          />
+          <InputField
+            type="password"
+            label="Contraseña"
+            placeholder="Ingrese su contraseña"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+          {error && <p className="error-message">{error}</p>}
         </div>
 
         <div className="login-footer">
-          <button className="login-button" onClick={onLogin}>
+          <button className="login-button" onClick={handleLogin}>
             Iniciar Sesión
           </button>
           <p className="register-text">
@@ -52,7 +95,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
 
       {showRegisterModal && <RegistrationModal onClose={closeRegisterModal} />}
     </div>
-  )
-}
+  );
+};
 
-export default LoginPage
+export default LoginPage;

@@ -10,8 +10,8 @@ const firebaseConfig = {
   projectId: "mvcpractica-c0502",
   storageBucket: "mvcpractica-c0502.firebasestorage.app",
   messagingSenderId: "385650472295",
-  appId: "1:385650472295:web:328beba376a3ce54182bc2",
-}
+  appId: "1:385650472295:web:328beba376a3ce54182bc2"
+};
 
 // Inicializa Firebase
 const app = initializeApp(firebaseConfig)
