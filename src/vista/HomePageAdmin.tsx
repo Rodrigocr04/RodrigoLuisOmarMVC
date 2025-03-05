@@ -1,13 +1,11 @@
-import type React from "react"
-import { Search, BookOpen, PlusCircle, Trash2, RefreshCw, Users, Bell, Laptop } from "lucide-react"
-import { FaArrowLeft } from "react-icons/fa"
-import "./HomePage.css"
+import { useNavigate } from "react-router-dom";
+import { Search, BookOpen, PlusCircle, Trash2, RefreshCw, Users, Bell, Laptop } from "lucide-react";
+import { FaArrowLeft } from "react-icons/fa";
+import "../components/HomePage.css";
 
-interface HomePageProps {
-  onLogout?: () => void
-}
+const HomePageAdmin: React.FC = () => {
+  const navigate = useNavigate(); // Hook para navegación
 
-const HomePageAdmin: React.FC<HomePageProps> = ({ onLogout }) => {
   const actions = [
     {
       id: 1,
@@ -57,12 +55,17 @@ const HomePageAdmin: React.FC<HomePageProps> = ({ onLogout }) => {
       icon: <Laptop className="action-icon" />,
       description: "Solicitar préstamo de equipos",
     },
-  ]
+  ];
 
   return (
     <div className="home-container">
       <header className="home-header">
-        <FaArrowLeft className="back-arrow" onClick={onLogout} title="Regresar a Login" />
+        {/* Modificamos onClick para que redirija al login */}
+        <FaArrowLeft
+          className="back-arrow"
+          onClick={() => navigate("/")} 
+          title="Regresar a Login"
+        />
         <h1>Biblioteca Club América</h1>
         <p>Perfil</p>
       </header>
@@ -83,7 +86,7 @@ const HomePageAdmin: React.FC<HomePageProps> = ({ onLogout }) => {
         <p>© {new Date().getFullYear()} Biblioteca Club América - Todos los derechos reservados</p>
       </footer>
     </div>
-  )
-}
+  );
+};
 
-export default HomePageAdmin
+export default HomePageAdmin;

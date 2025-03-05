@@ -1,5 +1,5 @@
 import { collection, addDoc } from "firebase/firestore";
-import { db } from "./firebaseConfig";
+import { db } from "./firebase/firebaseConfig";
 
 // Función para agregar un nuevo usuario a la colección 'Usuarios'
 export const addUserToFirestore = async (userData: { username: string; email: string; password: string; role: string }) => {

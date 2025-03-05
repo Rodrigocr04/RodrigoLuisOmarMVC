@@ -1,13 +1,12 @@
-import type React from "react"
-import { Search, BookOpen } from "lucide-react"
-import { FaArrowLeft } from "react-icons/fa"
-import "./HomePage.css"
+import type React from "react";
+import { Search, BookOpen } from "lucide-react";
+import { FaArrowLeft } from "react-icons/fa";
+import { useNavigate } from "react-router-dom"; // Importar useNavigate
+import "../components/HomePage.css";
 
-interface HomePageProps {
-  onLogout?: () => void
-}
+const HomePageStudent: React.FC = () => {
+  const navigate = useNavigate(); // Hook para la navegación
 
-const HomePageStudent: React.FC<HomePageProps> = ({ onLogout }) => {
   const actions = [
     {
       id: 1,
@@ -21,19 +20,27 @@ const HomePageStudent: React.FC<HomePageProps> = ({ onLogout }) => {
       icon: <BookOpen className="action-icon" />,
       description: "Solicitar préstamo de material bibliográfico",
     },
-  ]
+  ];
 
   return (
     <div className="home-container">
       <header className="home-header">
-        <FaArrowLeft className="back-arrow" onClick={onLogout} title="Regresar a Login" />
+        <FaArrowLeft
+          className="back-arrow"
+          onClick={() => navigate("/")} // Redirigir al login
+          title="Regresar a Login"
+        />
         <h1>Biblioteca Club América</h1>
         <p>Perfil</p>
       </header>
 
       <main className="actions-grid">
         {actions.map((action) => (
-          <div key={action.id} className="action-tile" onClick={() => console.log(`Clicked: ${action.title}`)}>
+          <div
+            key={action.id}
+            className="action-tile"
+            onClick={() => console.log(`Clicked: ${action.title}`)}
+          >
             <div className="action-content">
               {action.icon}
               <h2>{action.title}</h2>
@@ -44,10 +51,13 @@ const HomePageStudent: React.FC<HomePageProps> = ({ onLogout }) => {
       </main>
 
       <footer className="home-footer">
-        <p>© {new Date().getFullYear()} Biblioteca Club América - Todos los derechos reservados</p>
+        <p>
+          © {new Date().getFullYear()} Biblioteca Club América - Todos los
+          derechos reservados
+        </p>
       </footer>
     </div>
-  )
-}
+  );
+};
 
-export default HomePageStudent
+export default HomePageStudent;

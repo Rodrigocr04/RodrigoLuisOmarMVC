@@ -1,17 +1,17 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import LoginPage from "./components/LoginPage";
-import HomePageStudent from "./components/HomePageStudent";
-import HomePageTeacher from "./components/HomePageTeacher";
-import HomePageAdmin from "./components/HomePageAdmin";
+import LoginPage from "./vista/LoginPage";
+import HomePageStudent from "./vista/HomePageStudent";
+import HomePageTeacher from "./vista/HomePageTeacher";
+import HomePageAdmin from "./vista/HomePageAdmin";
 
 function App() {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<LoginPage onLogin={() => {}} />} />
-        <Route path="/home/student" element={<HomePageStudent />} />
-        <Route path="/home/teacher" element={<HomePageTeacher />} />
-        <Route path="/home/admin" element={<HomePageAdmin />} />
+        <Route path="/home/estudiante" element={<HomePageStudent />} />
+        <Route path="/home/profesor" element={<HomePageTeacher />} />
+        <Route path="/home/administrador" element={<HomePageAdmin />} />
       </Routes>
     </Router>
   );

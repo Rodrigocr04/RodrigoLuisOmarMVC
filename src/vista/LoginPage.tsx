@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { InputField } from "./InputField";
-import { RegistrationModal } from "./Registration";
-import "./LoginPage.css";
-import { db } from "../firebaseConfig";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { InputField } from "../components/InputField";
+import { RegistrationModal } from "../components/Registration";
+import { authenticateUser } from "../controladores/AuthControler";
+import "../components/LoginPage.css";
 
 const LoginPage: React.FC = () => {
   const [showRegisterModal, setShowRegisterModal] = useState(false);
@@ -12,7 +11,7 @@ const LoginPage: React.FC = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const navigate = useNavigate(); // Hook para navegar entre rutas
+  const navigate = useNavigate();
 
   const openRegisterModal = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -25,37 +24,19 @@ const LoginPage: React.FC = () => {
 
   const handleLogin = async (e: React.MouseEvent) => {
     e.preventDefault();
+    setError("");
 
     try {
-      const usersRef = collection(db, "Usuarios");
-      const q = query(
-        usersRef,
-        where("nombre", "==", username),
-        where("contraseña", "==", password)
-      );
-      const querySnapshot = await getDocs(q);
+      const user = await authenticateUser(username, password);
 
-      if (querySnapshot.empty) {
+      if (!user) {
         setError("Usuario o contraseña incorrectos");
         return;
       }
 
-      // Obtenemos el primer documento (usuario encontrado)
-      const userData = querySnapshot.docs[0].data();
-      const userType = userData.tipo; // "tipo" es la categoría del usuario
-
-      // Redireccionamos según el tipo de usuario
-      if (userType === "estudiante") {
-        navigate("/home/student");
-      } else if (userType === "profesor") {
-        navigate("/home/teacher");
-      } else if (userType === "administrador") {
-        navigate("/home/admin");
-      } else {
-        setError("Tipo de usuario desconocido");
-      }
+      // Redirigir según el tipo de usuario
+      navigate(`/home/${user.tipo}`);
     } catch (error) {
-      console.error("Error al iniciar sesión:", error);
       setError("Ocurrió un error al iniciar sesión");
     }
   };
