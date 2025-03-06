@@ -1,8 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import LoginPage from "./vista/LoginPage";
-import HomePageStudent from "./vista/HomePageStudent";
-import HomePageTeacher from "./vista/HomePageTeacher";
-import HomePageAdmin from "./vista/HomePageAdmin";
+import LoginPage from "./vistas/LoginPage";
+import HomePageStudent from "./vistas/HomePageStudent";
+import HomePageTeacher from "./vistas/HomePageTeacher";
+import HomePageAdmin from "./vistas/HomePageAdmin";
 
 function App() {
   return (

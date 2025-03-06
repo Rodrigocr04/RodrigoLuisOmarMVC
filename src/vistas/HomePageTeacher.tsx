@@ -37,7 +37,6 @@ const HomePageTeacher: React.FC = () => {
           title="Regresar a Login"
         />
         <h1>Biblioteca Club América</h1>
-        <p>Perfil</p>
       </header>
 
       <main className="actions-grid">

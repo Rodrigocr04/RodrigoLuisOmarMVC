@@ -1,46 +1,46 @@
 import React, { useState } from "react";
-import { X } from 'lucide-react';
-import { addUserToFirestore } from "../firebaseUtils"; // Importa la función para agregar al usuario
-import "./Registration.css";
+import { X } from "lucide-react";
+import { registerUser } from "../controladores/UserControler"; // Importación corregida
+import { User } from "../modelo/UserModel";
+import "../components/Registration.css";
 
 interface RegistrationModalProps {
   onClose: () => void;
 }
 
 export const RegistrationModal: React.FC<RegistrationModalProps> = ({ onClose }) => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<User>({
+    id: "", // Asegúrate de proporcionar un ID adecuado
     username: "",
     email: "",
     password: "",
-    role: "estudiante"
+    role: "estudiante",
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Formulario enviado con los datos:", formData); // Verifica los datos antes de enviarlos
-    await addUserToFirestore(formData);  // Llamamos a la función para guardar el usuario
-    console.log("Datos enviados a Firestore");
-    onClose(); // Cierra el modal después de registrar al usuario
+    await registerUser(formData); // Llama al controlador
+    onClose();
   };
-  
+
   return (
     <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-container" onClick={e => e.stopPropagation()}>
+      <div className="modal-container" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
           <h2>Registro de Usuario</h2>
           <button className="close-button" onClick={onClose}>
             <X size={20} />
           </button>
         </div>
-        
+
         <form onSubmit={handleSubmit} className="modal-content">
           <div className="input-group">
             <label htmlFor="username">Usuario</label>
@@ -55,7 +55,7 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({ onClose })
               className="modal-input"
             />
           </div>
-          
+
           <div className="input-group">
             <label htmlFor="email">Correo Electrónico</label>
             <input
@@ -69,7 +69,7 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({ onClose })
               className="modal-input"
             />
           </div>
-          
+
           <div className="input-group">
             <label htmlFor="password">Contraseña</label>
             <input
@@ -83,7 +83,7 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({ onClose })
               className="modal-input"
             />
           </div>
-          
+
           <div className="input-group">
             <label htmlFor="role">Rol</label>
             <select
@@ -99,7 +99,7 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({ onClose })
               <option value="administrador">Administrador</option>
             </select>
           </div>
-          
+
           <div className="modal-footer">
             <button type="button" className="cancel-button" onClick={onClose}>
               Cancelar

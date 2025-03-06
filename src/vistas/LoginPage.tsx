@@ -1,45 +1,46 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { InputField } from "../components/InputField";
-import { RegistrationModal } from "../components/Registration";
-import { authenticateUser } from "../controladores/AuthControler";
-import "../components/LoginPage.css";
+import type React from "react"
+import { useState } from "react"
+import { useNavigate } from "react-router-dom"
+import { InputField } from "../components/InputField"
+import { RegistrationModal } from "./Registration"
+import { authenticateUser } from "../controladores/AuthControler"
+import "../components/LoginPage.css"
 
 const LoginPage: React.FC = () => {
-  const [showRegisterModal, setShowRegisterModal] = useState(false);
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [showRegisterModal, setShowRegisterModal] = useState(false)
+  const [username, setUsername] = useState("")
+  const [password, setPassword] = useState("")
+  const [error, setError] = useState("")
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   const openRegisterModal = (e: React.MouseEvent) => {
-    e.preventDefault();
-    setShowRegisterModal(true);
-  };
+    e.preventDefault()
+    setShowRegisterModal(true)
+  }
 
   const closeRegisterModal = () => {
-    setShowRegisterModal(false);
-  };
+    setShowRegisterModal(false)
+  }
 
   const handleLogin = async (e: React.MouseEvent) => {
-    e.preventDefault();
-    setError("");
+    e.preventDefault()
+    setError("")
 
     try {
-      const user = await authenticateUser(username, password);
+      const user = await authenticateUser(username, password)
 
       if (!user) {
-        setError("Usuario o contraseña incorrectos");
-        return;
+        setError("Usuario o contraseña incorrectos")
+        return
       }
 
       // Redirigir según el tipo de usuario
-      navigate(`/home/${user.tipo}`);
+      navigate(`/home/${user.tipo}`)
     } catch (error) {
-      setError("Ocurrió un error al iniciar sesión");
+      setError("Ocurrió un error al iniciar sesión")
     }
-  };
+  }
 
   return (
     <div className="login-container">
@@ -57,10 +58,9 @@ const LoginPage: React.FC = () => {
           <InputField
             type="text"
             label="Usuario"
-            placeholder="Ingrese su nombre de usuario o correo"
+            placeholder="Ingrese su nombre de usuario"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-            required
           />
           <InputField
             type="password"
@@ -68,7 +68,6 @@ const LoginPage: React.FC = () => {
             placeholder="Ingrese su contraseña"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            required
           />
           {error && <p className="error-message">{error}</p>}
         </div>
@@ -88,7 +87,7 @@ const LoginPage: React.FC = () => {
 
       {showRegisterModal && <RegistrationModal onClose={closeRegisterModal} />}
     </div>
-  );
-};
+  )
+}
 
-export default LoginPage;
+export default LoginPage
