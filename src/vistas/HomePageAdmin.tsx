@@ -1,10 +1,51 @@
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Search, BookOpen, PlusCircle, Trash2, RefreshCw, Users, Bell, Laptop } from "lucide-react";
 import { FaArrowLeft } from "react-icons/fa";
 import "../components/HomePage.css";
+import { handleAddBook } from "../controladores/BookControler";
+import { Book } from "../modelo/BookModel";
 
 const HomePageAdmin: React.FC = () => {
-  const navigate = useNavigate(); // Hook para navegación
+  const navigate = useNavigate();
+  const [showForm, setShowForm] = useState(false); // Estado para controlar la visibilidad del formulario
+  const [newBook, setNewBook] = useState<Omit<Book, "id">>({
+    title: "",
+    author: "",
+    genre: "",
+    status: "Disponible",
+    imageUrl: "",
+  });
+
+  // Función para manejar el clic en "Agregar Libro"
+  const handleAddBookClick = () => {
+    setShowForm(true); // Mostrar el formulario
+  };
+
+  // Función para manejar el envío del formulario
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      await handleAddBook(newBook);
+      console.log("Libro agregado exitosamente");
+      setShowForm(false); // Ocultar el formulario después de agregar el libro
+      setNewBook({ // Resetear el formulario
+        title: "",
+        author: "",
+        genre: "",
+        status: "Disponible",
+        imageUrl: "",
+      });
+    } catch (error) {
+      console.error("Error al agregar el libro:", error);
+    }
+  };
+
+  // Función para manejar cambios en los campos del formulario
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setNewBook({ ...newBook, [name]: value });
+  };
 
   const actions = [
     {
@@ -24,6 +65,7 @@ const HomePageAdmin: React.FC = () => {
       title: "Agregar Libro",
       icon: <PlusCircle className="action-icon" />,
       description: "Añadir nuevo libro al inventario",
+      onClick: handleAddBookClick, // Asignar la función al clic
     },
     {
       id: 4,
@@ -60,10 +102,9 @@ const HomePageAdmin: React.FC = () => {
   return (
     <div className="home-container">
       <header className="home-header">
-        {/* Modificamos onClick para que redirija al login */}
         <FaArrowLeft
           className="back-arrow"
-          onClick={() => navigate("/")} 
+          onClick={() => navigate("/")}
           title="Regresar a Login"
         />
         <h1>Biblioteca Club América</h1>
@@ -71,7 +112,11 @@ const HomePageAdmin: React.FC = () => {
 
       <main className="actions-grid">
         {actions.map((action) => (
-          <div key={action.id} className="action-tile" onClick={() => console.log(`Clicked: ${action.title}`)}>
+          <div
+            key={action.id}
+            className="action-tile"
+            onClick={action.onClick || (() => console.log(`Clicked: ${action.title}`))}
+          >
             <div className="action-content">
               {action.icon}
               <h2>{action.title}</h2>
@@ -80,6 +125,75 @@ const HomePageAdmin: React.FC = () => {
           </div>
         ))}
       </main>
+
+      {/* Modal para agregar libro */}
+      {showForm && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h2>Agregar Nuevo Libro</h2>
+            <form onSubmit={handleSubmit}>
+              <div className="form-group">
+                <label>Título:</label>
+                <input
+                  type="text"
+                  name="title"
+                  value={newBook.title}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label>Autor:</label>
+                <input
+                  type="text"
+                  name="author"
+                  value={newBook.author}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label>Género:</label>
+                <input
+                  type="text"
+                  name="genre"
+                  value={newBook.genre}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label>Estado:</label>
+                <select
+                  name="status"
+                  value={newBook.status}
+                  onChange={handleInputChange}
+                  required
+                >
+                  <option value="Disponible">Disponible</option>
+                  <option value="Prestado">Prestado</option>
+                </select>
+              </div>
+              <div className="form-group">
+                <label>URL de la imagen:</label>
+                <input
+                  type="text"
+                  name="imageUrl"
+                  value={newBook.imageUrl}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+              <div className="form-buttons">
+                <button type="button" onClick={() => setShowForm(false)}>
+                  Cancelar
+                </button>
+                <button type="submit">Agregar</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
 
       <footer className="home-footer">
         <p>© {new Date().getFullYear()} Biblioteca Club América - Todos los derechos reservados</p>
