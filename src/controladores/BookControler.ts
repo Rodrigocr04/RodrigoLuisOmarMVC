@@ -1,33 +1,29 @@
-import { addBook, getBooks, searchBooks, Book } from "../modelo/BookModel";
+import { BookDAO } from "../DAO/AppDao";
+import { Book } from "../modelo/BookModel";
 
-// Función para manejar la adición de un libro
+/**
+ * Controlador para agregar un libro.
+ * @param book - Datos del libro (sin el campo "id").
+ * @returns void
+ */
+
 export const handleAddBook = async (book: Omit<Book, "id">): Promise<void> => {
-  try {
-    await addBook(book);
-  } catch (error) {
-    console.error("Error en el controlador al agregar el libro:", error);
-    throw error;
-  }
+  return BookDAO.addBook(book);
 };
 
-// Función para obtener todos los libros
+/**
+ * Controlador para obtener todos los libros.
+ * @returns Un array de libros.
+ */
 export const handleGetBooks = async (): Promise<Book[]> => {
-  try {
-    const books = await getBooks();
-    return books;
-  } catch (error) {
-    console.error("Error en el controlador al obtener los libros:", error);
-    throw error;
-  }
+  return BookDAO.getBooks();
 };
 
-// Función para buscar libros
+/**
+ * Controlador para buscar libros.
+ * @param searchTerm - Término de búsqueda.
+ * @returns Un array de libros que coinciden con la búsqueda.
+ */
 export const handleSearchBooks = async (searchTerm: string): Promise<Book[]> => {
-  try {
-    const books = await searchBooks(searchTerm);
-    return books;
-  } catch (error) {
-    console.error("Error en el controlador al buscar libros:", error);
-    throw error;
-  }
+  return BookDAO.searchBooks(searchTerm);
 };

@@ -1,7 +1,7 @@
 import type React from "react";
 import { Search, BookOpen } from "lucide-react";
 import { FaArrowLeft } from "react-icons/fa";
-import { useNavigate } from "react-router-dom"; // Importar useNavigate
+import { useNavigate } from "react-router-dom";
 import "../components/HomePage.css";
 
 const HomePageStudent: React.FC = () => {

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { X } from "lucide-react";
-import { registerUser } from "../controladores/UserControler"; // Importación corregida
+import { registerUser } from "../controladores/UserControler";
 import { User } from "../modelo/UserModel";
 import "../components/Registration.css";
 
@@ -10,7 +10,7 @@ interface RegistrationModalProps {
 
 export const RegistrationModal: React.FC<RegistrationModalProps> = ({ onClose }) => {
   const [formData, setFormData] = useState<User>({
-    id: "", // Asegúrate de proporcionar un ID adecuado
+    id: "",
     username: "",
     email: "",
     password: "",
@@ -27,7 +27,7 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({ onClose })
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await registerUser(formData); // Llama al controlador
+    await registerUser(formData);
     onClose();
   };
 

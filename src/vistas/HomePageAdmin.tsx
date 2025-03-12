@@ -19,7 +19,7 @@ const HomePageAdmin: React.FC = () => {
 
   // Función para manejar el clic en "Agregar Libro"
   const handleAddBookClick = () => {
-    setShowForm(true); // Mostrar el formulario
+    setShowForm(true);
   };
 
   // Función para manejar el envío del formulario
@@ -28,7 +28,7 @@ const HomePageAdmin: React.FC = () => {
     try {
       await handleAddBook(newBook);
       console.log("Libro agregado exitosamente");
-      setShowForm(false); // Ocultar el formulario después de agregar el libro
+      setShowForm(false);
       setNewBook({ // Resetear el formulario
         title: "",
         author: "",
@@ -65,7 +65,7 @@ const HomePageAdmin: React.FC = () => {
       title: "Agregar Libro",
       icon: <PlusCircle className="action-icon" />,
       description: "Añadir nuevo libro al inventario",
-      onClick: handleAddBookClick, // Asignar la función al clic
+      onClick: handleAddBookClick,
     },
     {
       id: 4,

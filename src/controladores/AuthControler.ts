@@ -1,25 +1,22 @@
-import { db } from "../firebase/firebaseConfig";
-import { collection, query, where, getDocs } from "firebase/firestore";
-import { User } from "../modelo/UserModel";;
+import { UserDAO } from "../DAO/AppDao";
+import { User } from "../modelo/UserModel";
+
+/**
+ * Controlador para autenticar usuarios.
+ * @param username - Nombre de usuario.
+ * @param password - Contraseña.
+ * @returns Un objeto `User` si la autenticación es exitosa, o `null` si las credenciales son incorrectas.
+ */
 
 export const authenticateUser = async (username: string, password: string): Promise<User | null> => {
-  try {
-    const usersRef = collection(db, "Usuarios");
-    const q = query(
-      usersRef,
-      where("nombre", "==", username),
-      where("contraseña", "==", password)
-    );
-    const querySnapshot = await getDocs(q);
+  return UserDAO.authenticateUser(username, password);
+};
 
-    if (querySnapshot.empty) {
-      return null;
-    }
-
-    const userData = querySnapshot.docs[0].data() as User;
-    return userData;
-  } catch (error) {
-    console.error("Error al autenticar:", error);
-    throw new Error("Error al autenticar usuario");
-  }
+/**
+ * Controlador para registrar un nuevo usuario.
+ * @param userData - Datos del usuario a registrar.
+ * @returns void
+ */
+export const registerUser = async (userData: User): Promise<void> => {
+  return UserDAO.registerUser(userData);
 };

@@ -6,8 +6,8 @@ interface InputFieldProps {
   label: string;
   placeholder?: string;
   required?: boolean;
-  value: string; // Nueva prop para el valor del campo
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void; // Nueva prop para manejar cambios
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export const InputField: React.FC<InputFieldProps> = ({
